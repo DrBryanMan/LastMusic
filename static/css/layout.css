@@ -1,0 +1,82 @@
+/* ── Full-height layout ─────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100dvh;
+  width: 100%;
+}
+
+.wrap.main-wrap {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px clamp(12px, 3vw, 32px) 16px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  html, body { overflow: auto; }
+  .layout, .wrap.main-wrap { height: auto; overflow: visible; }
+  .cols { grid-template-columns: minmax(0, 1fr); overflow: visible; }
+}
+
+/* ── Appbar (acrylic, sticky) ──────────────────────────────────────── */
+.appbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 10px clamp(12px, 3vw, 32px);
+  background: light-dark(rgba(236,236,236,0.78), rgba(24,24,24,0.78));
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; text-decoration: none; color: inherit; }
+.brand .i { width: 20px; height: 20px; color: var(--accent); }
+.appbar-end { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.who { color: var(--text-2); font-size: 13px; text-decoration: none; transition: color 0.12s; }
+.who:hover { color: var(--accent); text-decoration: underline; }
+
+/* Nav links */
+.appbar-nav { display: flex; gap: 4px; }
+.nav-link {
+  padding: 5px 12px; border-radius: var(--radius-s);
+  color: var(--text-2); text-decoration: none; font-size: 13px;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-link:hover { background: var(--subtle-hover); color: var(--text); }
+.nav-link.active { background: var(--subtle); color: var(--accent); font-weight: 600; }
+
+/* ── Sub-pages container (Loved / Library / Artist) ────────────────── */
+.page-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  scrollbar-width: thin;
+}
+.page-wrap {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px clamp(12px, 3vw, 32px) 48px;
+}

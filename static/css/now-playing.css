@@ -1,0 +1,122 @@
+/* ── Now playing ───────────────────────────────────────────────────── */
+.now { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: none; }
+.now-main { display: flex; gap: 14px; align-items: center; justify-content: space-between; }
+.now-left-group { display: flex; gap: 14px; align-items: center; min-width: 0; flex: 1; }
+
+.now-cover-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex: none;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--subtle);
+  cursor: pointer;
+}
+.now-cover-wrap .cover { width: 100%; height: 100%; object-fit: cover; display: block; }
+.now-cover-wrap .ph { width: 100%; height: 100%; display: grid; place-items: center; color: var(--text-3); }
+
+.now-cover-play-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.58);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+  opacity: 0.85;
+}
+.now-cover-wrap:hover .now-cover-play-btn {
+  opacity: 1;
+  transform: scale(1.1);
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: transparent;
+}
+.now-cover-play-btn svg.i { width: 18px; height: 18px; fill: currentColor; }
+
+.now-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.now h3 { font-size: 17px; line-height: 22px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; }
+.now p.artist { color: var(--text-2); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; }
+
+/* ── Now playing right square stats + Love button ─────────────────── */
+.now-right-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+.now-square-stat {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-s);
+  background: var(--subtle);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px 4px;
+  gap: 2px;
+  transition: background 0.12s, transform 0.12s;
+}
+.now-square-stat:hover { background: var(--subtle-hover); transform: translateY(-2px); }
+.now-stat-icon {
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.85;
+}
+.now-square-stat strong {
+  font-size: 17px;
+  line-height: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.now-square-stat small {
+  font-size: 9.5px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  line-height: 11px;
+}
+.now-stat-track .now-stat-icon,
+.now-stat-track strong { color: light-dark(#0284c7, #38bdf8); }
+.now-stat-artist .now-stat-icon,
+.now-stat-artist strong { color: light-dark(#7e22ce, #c084fc); }
+
+.now-love-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--stroke);
+  background: var(--subtle);
+  color: var(--text-3);
+  cursor: pointer;
+  transition: transform 0.15s, color 0.15s, background 0.15s, border-color 0.15s;
+  flex: none;
+}
+.now-love-btn:hover {
+  color: #f43f5e;
+  background: rgba(244, 63, 94, 0.12);
+  transform: scale(1.1);
+}
+.now-love-btn.loved {
+  color: #f43f5e;
+  border-color: rgba(244, 63, 94, 0.4);
+  background: rgba(244, 63, 94, 0.16);
+}
+.now-love-btn svg.i { width: 18px; height: 18px; fill: currentColor; }

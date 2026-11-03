@@ -1,0 +1,10 @@
+/* Scrobble Deck — Fluent/Acrylic Design, Windows 11 style (Modular CSS Entry) */
+@import url("./base.css");
+@import url("./layout.css");
+@import url("./components.css");
+@import url("./stats.css");
+@import url("./now-playing.css");
+@import url("./player.css");
+@import url("./lists.css");
+@import url("./dialog.css");
+@import url("./pages.css");

@@ -1,0 +1,7 @@
+{
+  "user": "your_lastfm_username",
+  "lfmKey": "your_lastfm_api_key",
+  "lfmSecret": "your_lastfm_shared_secret",
+  "ytKey": "your_youtube_data_api_v3_key",
+  "sk": ""
+}

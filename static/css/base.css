@@ -1,0 +1,46 @@
+/* Scrobble Deck — Base tokens, reset & typography */
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#ececec, #181818);
+  --card-bg: light-dark(rgba(255,255,255,0.66), rgba(38,38,38,0.66));
+  --card-blur: blur(24px) saturate(1.8);
+  --subtle: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.06));
+  --subtle-hover: light-dark(rgba(0,0,0,0.08), rgba(255,255,255,0.10));
+  --stroke: light-dark(rgba(0,0,0,0.08), rgba(255,255,255,0.09));
+  --text: light-dark(#1a1a1a, #f0f0f0);
+  --text-2: light-dark(#555, #bbb);
+  --text-3: light-dark(#767676, #9a9a9a);
+  --accent: light-dark(#0067c0, #60cdff);
+  --accent-hover: light-dark(#0053a0, #78d5ff);
+  --on-accent: light-dark(#fff, #000);
+  --ok: light-dark(#0f7b0f, #6ccb5f);
+  --radius: 10px;
+  --radius-s: 6px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+  --font: "Segoe UI Variable Text","Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; }
+[hidden] { display: none !important; }
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  background:
+    radial-gradient(1200px 700px at 88% -8%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(900px 600px at 12% 105%, color-mix(in srgb, #a855f7 14%, transparent), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font: 400 14px/20px var(--font);
+}
+
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+svg.i { width: 16px; height: 16px; fill: currentColor; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

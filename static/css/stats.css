@@ -1,0 +1,97 @@
+/* ── Stats bar (5 окремих кольорових акрилових карток як у рядку) ─── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (max-width: 800px) {
+  .stats { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+}
+
+.stat {
+  padding: 10px 16px;
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat small {
+  display: block;
+  color: var(--text-2);
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.stat strong {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Кольорове оформлення кожної картки статистики */
+.stat-1 {
+  background: linear-gradient(135deg, color-mix(in srgb, #38bdf8 18%, var(--card-bg)), var(--card-bg));
+  border-color: color-mix(in srgb, #38bdf8 32%, var(--stroke));
+}
+.stat-1 strong { color: light-dark(#0284c7, #38bdf8); }
+
+.stat-2 {
+  background: linear-gradient(135deg, color-mix(in srgb, #a855f7 18%, var(--card-bg)), var(--card-bg));
+  border-color: color-mix(in srgb, #a855f7 32%, var(--stroke));
+}
+.stat-2 strong { color: light-dark(#7e22ce, #c084fc); }
+
+.stat-3 {
+  background: linear-gradient(135deg, color-mix(in srgb, #f59e0b 18%, var(--card-bg)), var(--card-bg));
+  border-color: color-mix(in srgb, #f59e0b 32%, var(--stroke));
+}
+.stat-3 strong { color: light-dark(#b45309, #fbbf24); }
+
+.stat-4 {
+  background: linear-gradient(135deg, color-mix(in srgb, #10b981 18%, var(--card-bg)), var(--card-bg));
+  border-color: color-mix(in srgb, #10b981 32%, var(--stroke));
+}
+.stat-4 strong { color: light-dark(#047857, #34d399); }
+
+.stat-5 {
+  background: linear-gradient(135deg, color-mix(in srgb, #f43f5e 18%, var(--card-bg)), var(--card-bg));
+  border-color: color-mix(in srgb, #f43f5e 32%, var(--stroke));
+}
+
+/* 5-й блок: Грати зараз (3 кнопки з унікальними іконками) */
+.stat-stream {
+  align-items: flex-start;
+}
+.stream-quick {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 2px;
+}
+.stream-quick-btn {
+  width: 30px; height: 30px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; padding: 0;
+  border: 1.5px solid currentColor;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  cursor: pointer;
+  transition: transform .12s, background .15s, color .15s;
+}
+.stream-quick-btn:nth-child(1) { color: light-dark(#0284c7, #38bdf8); }
+.stream-quick-btn:nth-child(2) { color: light-dark(#7e22ce, #c084fc); }
+.stream-quick-btn:nth-child(3) { color: light-dark(#e11d48, #fb7185); }
+.stream-quick-btn:hover {
+  transform: scale(1.08);
+  background: currentColor;
+}
+.stream-quick-btn:hover svg.i {
+  fill: var(--on-accent);
+}
+.stream-quick-btn .i { width: 15px; height: 15px; }
