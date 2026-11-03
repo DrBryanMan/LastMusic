@@ -2,6 +2,9 @@
 config.json
 *.local.json
 
+# Local server (optional local runner)
+server.py
+
 # Python cache & virtual environments
 __pycache__/
 *.py[cod]
