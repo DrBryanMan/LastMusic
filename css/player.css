@@ -1,10 +1,308 @@
 /* ── Player ────────────────────────────────────────────────────────── */
-.player-card { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-.screen { position: relative; flex: 1; min-height: 180px; background: #000; }
-.screen::before { content: "Відео з'явиться тут"; position: absolute; inset: 0; display: grid; place-items: center; color: #8a8a8a; }
-.screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.controls { display: flex; align-items: center; gap: 6px; padding: 8px 12px; flex-wrap: wrap; flex: none; }
-.controls .status { flex: 1; min-width: 120px; margin-left: 8px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.screen {
+  position: relative;
+  flex: 1;
+  min-height: 210px;
+  background: #0d0d11;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Top overlay bar (Song / Video switch + YTM external link) ─────── */
+.screen-top {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.mode-switch {
+  pointer-events: auto;
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(18, 18, 22, 0.68);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+.mode-btn svg.i {
+  width: 14px;
+  height: 14px;
+}
+.mode-btn:hover {
+  color: #fff;
+}
+.mode-btn.active {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+.ytm-badge-link {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(18, 18, 22, 0.68);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.ytm-badge-link:hover {
+  background: rgba(32, 32, 40, 0.85);
+  color: var(--accent);
+  text-decoration: none;
+}
+.ytm-badge-link svg.i {
+  width: 13px;
+  height: 13px;
+}
+
+/* ── Audio Stage (Blurred background + Album cover + Track title) ──── */
+.audio-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 46px 20px 18px;
+  overflow: hidden;
+}
+
+.player-bg {
+  position: absolute;
+  inset: -28px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(36px) saturate(1.75) brightness(0.52);
+  transform: scale(1.12);
+  transition: background-image 0.4s ease, opacity 0.4s ease;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.audio-stage-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  max-width: 100%;
+}
+
+.player-cover-wrap {
+  position: relative;
+  width: clamp(110px, 18vh, 168px);
+  height: clamp(110px, 18vh, 168px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.player-card.is-playing .player-cover-wrap {
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65), 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, rgba(255, 255, 255, 0.16));
+}
+
+.player-card.is-loading .player-cover-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(3px);
+  display: block;
+}
+
+.player-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player-cover.ph {
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.45);
+}
+.player-cover.ph svg.i {
+  width: 42%;
+  height: 42%;
+}
+
+.player-track-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 380px;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.player-track-meta strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 19px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.player-track-meta span {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.74);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Video Stage ───────────────────────────────────────────────────── */
+.video-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  z-index: 2;
+}
+
+.yt-iframe-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 2;
+}
+.yt-iframe-wrap.audio-only-bg {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.yt-iframe-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ── Controls, Seek bar & Volume ───────────────────────────────────── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px 10px;
+  flex: none;
+  border-top: 1px solid var(--stroke);
+}
+
+.seek-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.time {
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  min-width: 34px;
+  user-select: none;
+}
+#time-dur {
+  text-align: right;
+}
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.controls-row .status {
+  flex: 1;
+  min-width: 80px;
+  margin-left: 6px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+/* Custom Range Sliders (Seek & Volume) */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--subtle-hover);
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--accent);
+  transition: height 0.12s ease;
+}
+.slider:hover {
+  height: 6px;
+}
+.seek-slider {
+  flex: 1;
+  width: 100%;
+}
+.vol-slider {
+  width: 72px;
+}
 
 /* ── Floating Mini-Player bar ──────────────────────────────────────── */
 .mini-player-bar {
@@ -21,11 +319,12 @@
   border: 1px solid var(--stroke);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
-  padding: 8px 16px;
+  padding: 10px 16px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  overflow: hidden;
   animation: miniSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .mini-player-bar[hidden] {
@@ -35,6 +334,23 @@
   from { transform: translateY(120%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.mini-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--subtle);
+  overflow: hidden;
+}
+.mini-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.2s linear;
+}
+
 .mini-player-info {
   display: flex;
   align-items: center;
@@ -77,11 +393,10 @@
   gap: 6px;
   flex: none;
 }
-
-/* Floating mini-player bar on sub-pages */
-.mini-player {
-  position: fixed; right: 20px; bottom: 20px; z-index: 50;
-  width: 340px;
-  box-shadow: var(--shadow-lg);
+.mini-time {
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  margin-right: 4px;
+  white-space: nowrap;
 }
-.mini-player[hidden] { display: none; }

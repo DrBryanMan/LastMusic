@@ -5,7 +5,6 @@ export const config = {
   user: "",
   lfmKey: "",
   lfmSecret: "",
-  ytKey: "",
   sk: "",
   hasSecret: false,
   authorized: false,
@@ -179,7 +178,6 @@ export const loadConfig = async () => {
           config.user = fileCfg.user || "";
           config.lfmKey = fileCfg.lfmKey || "";
           config.lfmSecret = fileCfg.lfmSecret || "";
-          config.ytKey = fileCfg.ytKey || "";
           config.sk = fileCfg.sk || fileCfg.sessionKey || "";
           saveConfig(config);
         }
@@ -197,7 +195,6 @@ export const loadConfig = async () => {
 export const saveConfig = async (values = {}) => {
   if (values.user !== undefined) config.user = (values.user || "").trim();
   if (values.lfmKey !== undefined) config.lfmKey = (values.lfmKey || "").trim();
-  if (values.ytKey !== undefined) config.ytKey = (values.ytKey || "").trim();
   if (values.lfmSecret) {
     config.lfmSecret = values.lfmSecret.trim();
   }
@@ -211,7 +208,6 @@ export const saveConfig = async (values = {}) => {
       user: config.user,
       lfmKey: config.lfmKey,
       lfmSecret: config.lfmSecret,
-      ytKey: config.ytKey,
       sk: config.sk,
     }));
   } catch {}

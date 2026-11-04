@@ -535,7 +535,7 @@ const form = $("#settings-form");
 const formValues = () => Object.fromEntries(new FormData(form));
 
 const openSettings = () => {
-  for (const name of ["user", "lfmKey", "ytKey"]) form.elements[name].value = config[name] ?? "";
+  for (const name of ["user", "lfmKey"]) form.elements[name].value = config[name] ?? "";
   form.elements.lfmSecret.value = "";
   form.elements.lfmSecret.placeholder = config.hasSecret ? "Збережено у localStorage — залиш порожнім" : "";
   $("#auth-finish").hidden = !sessionStorage.getItem("scrobble-deck:pendingToken");
@@ -583,7 +583,6 @@ $("#export-config")?.addEventListener("click", () => {
     user: config.user,
     lfmKey: config.lfmKey,
     lfmSecret: config.lfmSecret,
-    ytKey: config.ytKey,
     sk: config.sk,
   };
   const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
