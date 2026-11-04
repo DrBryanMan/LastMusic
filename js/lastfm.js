@@ -257,19 +257,25 @@ export const finishAuth = async () => {
 // ── Write operations ──────────────────────────────────────────────────
 export const updateNowPlaying = async (track) => {
   if (!config.authorized) return;
+  const title = track.track || track.title;
+  if (!track.artist || !title) return;
   return signedCall("track.updateNowPlaying", {
     artist: track.artist,
-    track: track.title,
+    track: title,
+    ...(track.duration ? { duration: track.duration } : {}),
   });
 };
 
 export const scrobble = async (track) => {
   if (!config.authorized) return;
+  const title = track.track || track.title;
+  if (!track.artist || !title) return;
   const ts = track.timestamp || Math.floor(Date.now() / 1000);
   return signedCall("track.scrobble", {
     artist: track.artist,
-    track: track.title,
+    track: title,
     timestamp: ts,
+    ...(track.duration ? { duration: track.duration } : {}),
   });
 };
 

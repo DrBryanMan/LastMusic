@@ -30,6 +30,10 @@ const markActive = () => {
   for (const row of document.querySelectorAll(".row, .grid-track-card")) {
     row.classList.toggle("active", row.dataset.key === active);
   }
+  const cur = currentTrack();
+  if (cur && cur.title) {
+    renderNow({ ...cur, live: true });
+  }
   updateNowCoverIcon();
   updateMiniPlayerBar();
 };
@@ -114,12 +118,17 @@ const renderNow = async (t) => {
   const trackK = key(t.artist, t.title);
   const prevK = currentNowTrack ? key(currentNowTrack.artist, currentNowTrack.title) : null;
 
-  // If same track, do not destroy DOM — just update live badge
+  // If same track, do not destroy DOM — just update live badge and cover if resolved
   if (trackK === prevK && box.querySelector(".now-main")) {
     const badge = box.querySelector(".badge");
     if (badge) {
       badge.className = t.live ? "badge live" : "badge";
       badge.textContent = t.live ? "Зараз грає" : `Останній скробл, ${ago(t.ts)}`;
+    }
+    const phEl = box.querySelector(".now-cover-wrap .ph");
+    if (phEl && t.img) {
+      const img = h("img", { class: "cover", src: t.img, alt: "", loading: "lazy" });
+      phEl.replaceWith(img);
     }
     updateNowCoverIcon();
     return;
@@ -403,8 +412,11 @@ const loadRecent = async () => {
   if (document.hidden) return;
   try {
     const data = await lfm("user.getRecentTracks", { limit: 15 });
-    const tracks = asArray(data.recenttracks.track).map(normalize.recent);
-    renderNow(tracks[0]);
+    const tracks = asArray(data.recenttracks.track)
+      .map(normalize.recent)
+      .filter((t) => t.title && t.title !== "undefined");
+    const cur = currentTrack();
+    renderNow(cur && cur.title ? { ...cur, live: true } : tracks[0]);
     const finished = tracks.filter((t) => !t.live);
     fillList("#recent", finished.map((t, i) => trackRow(t, finished, i, ago(t.ts))), "Порожньо");
     markActive();
