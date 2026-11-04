@@ -167,10 +167,47 @@
 
 /* ── Toast (InfoBar) ───────────────────────────────────────────────── */
 #toast {
-  position: fixed; left: 50%; bottom: 24px; z-index: 60; max-width: 90vw;
+  position: fixed; left: 50%; bottom: 24px; z-index: 150; max-width: 90vw;
   padding: 10px 16px; background: var(--card-bg); backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
   border: 1px solid var(--stroke); border-left: 4px solid var(--accent);
   border-radius: var(--radius-s); box-shadow: var(--shadow-lg);
   opacity: 0; pointer-events: none; transform: translate(-50%, 12px); transition: opacity .2s, transform .2s;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ── Mobile & Touch Enhancements ───────────────────────────────────── */
+@media (max-width: 768px) {
+  #toast {
+    bottom: calc(68px + var(--sab));
+  }
+  .custom-select-menu {
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (pointer: coarse) {
+  .btn {
+    min-height: 36px;
+    padding: 6px 14px;
+  }
+  .btn.sm {
+    min-height: 32px;
+    padding: 4px 10px;
+  }
+  .btn.icon {
+    width: 36px;
+    height: 36px;
+  }
+  .tab {
+    padding: 7px 12px;
+  }
+  .custom-select-trigger {
+    min-height: 32px;
+  }
+  .custom-select-option {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+}

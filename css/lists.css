@@ -173,3 +173,94 @@
   color: var(--text-3);
   white-space: nowrap;
 }
+
+/* ── Mobile Responsive Adjustments ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .right-col, .right-card {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
+  }
+  .tab-panels {
+    position: static;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+  }
+  .tab-panel {
+    position: static;
+    inset: auto;
+    overflow: visible;
+    height: auto;
+    padding: 6px 0;
+  }
+  .tab-panel[hidden] {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabs-header {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    flex-shrink: 0;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  #recent-controls, #top-controls, #recs-controls {
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0 !important;
+    padding-top: 6px;
+    border-top: 1px solid var(--stroke);
+  }
+  .seg {
+    flex: 1;
+    justify-content: center;
+  }
+  .seg button {
+    flex: 1;
+    text-align: center;
+    padding: 4px 6px;
+    font-size: 11.5px;
+  }
+  .row {
+    padding: 8px 10px;
+    margin: 2px 4px;
+    min-height: 48px;
+  }
+  .row .thumb {
+    width: 44px;
+    height: 44px;
+  }
+  .row .rank-num {
+    width: 24px;
+    font-size: 12px;
+  }
+  .grid-top, .grid-tracks, .page-wrap .grid-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 8px;
+  }
+  .grid-track-play-btn {
+    opacity: 0.92;
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 360px) {
+  .grid-top, .grid-tracks, .page-wrap .grid-top {
+    grid-template-columns: 1fr;
+  }
+}

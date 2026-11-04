@@ -2,7 +2,12 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ececec" media="(prefers-color-scheme: light)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>LastMusic</title>
 <link rel="stylesheet" href="css/style.css">
@@ -44,7 +49,7 @@
       <a href="#/library" class="nav-link" data-route="library">Бібліотека</a>
     </nav>
     <div class="appbar-end">
-      <button class="chip" id="scrobble-chip" title="Налаштування скроблінгу">Скроблінг вимкнено</button>
+      <button class="chip" id="scrobble-chip" title="Налаштування скроблінгу"><span class="chip-text">Скроблінг вимкнено</span></button>
       <a class="who" id="who" href="#" target="_blank" rel="noopener" title="Профіль на Last.fm" hidden></a>
       <button class="btn icon" id="open-settings" aria-label="Налаштування" title="Налаштування"><svg class="i"><use href="#i-settings"/></svg></button>
     </div>
@@ -186,6 +191,26 @@
     <a class="link" id="mini-ytm-link" href="#" target="_blank" rel="noopener" hidden title="Відкрити в YTM"><svg class="i"><use href="#i-external"/></svg></a>
   </div>
 </div>
+
+<!-- ── Mobile Bottom Navigation Bar ─────────────────────────────────── -->
+<nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Мобільна навігація">
+  <a href="#/" class="mobile-nav-link active" data-route="home">
+    <svg class="i"><use href="#i-note"/></svg>
+    <span>Головна</span>
+  </a>
+  <a href="#/loved" class="mobile-nav-link" data-route="loved">
+    <svg class="i"><use href="#i-heart"/></svg>
+    <span>Улюблені</span>
+  </a>
+  <a href="#/library" class="mobile-nav-link" data-route="library">
+    <svg class="i"><use href="#i-library"/></svg>
+    <span>Бібліотека</span>
+  </a>
+  <button type="button" class="mobile-nav-link" id="mobile-nav-settings" aria-label="Налаштування">
+    <svg class="i"><use href="#i-settings"/></svg>
+    <span>Опції</span>
+  </button>
+</nav>
 
 <!-- ── Settings Dialog ──────────────────────────────────────────────── -->
 <dialog id="settings">

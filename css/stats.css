@@ -5,9 +5,6 @@
   gap: 12px;
   margin-bottom: 14px;
 }
-@media (max-width: 800px) {
-  .stats { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-}
 
 .stat {
   padding: 10px 16px;
@@ -95,3 +92,65 @@
   fill: var(--on-accent);
 }
 .stream-quick-btn .i { width: 15px; height: 15px; }
+
+/* ── Artist Stats ──────────────────────────────────────────────────── */
+.artist-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ── Responsive adjustments ────────────────────────────────────────── */
+@media (max-width: 800px) {
+  .stats { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .stat {
+    padding: 10px 12px;
+  }
+  .stat strong {
+    font-size: 19px;
+    line-height: 24px;
+  }
+  .stat small {
+    font-size: 11px;
+  }
+  .stat-5 {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+  }
+  .stat-5 small {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .stream-quick {
+    margin-top: 0;
+    gap: 12px;
+  }
+  .stream-quick-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .stream-quick-btn .i {
+    width: 17px;
+    height: 17px;
+  }
+  .artist-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .artist-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

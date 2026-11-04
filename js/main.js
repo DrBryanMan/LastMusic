@@ -23,6 +23,22 @@ let statsId;
 // Cache for Now Playing metadata: key -> { trackPlays, artistPlays, userLoved }
 const nowMetaCache = new Map();
 let currentNowTrack = null;
+let playerCardVisible = true;
+
+const initPlayerObserver = () => {
+  const card = document.querySelector(".player-card");
+  if (!card || !("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        playerCardVisible = entry.isIntersecting;
+        updateMiniPlayerBar();
+      }
+    },
+    { threshold: 0.1 }
+  );
+  observer.observe(card);
+};
 
 // ── Active row highlight ────────────────────────────────────────────
 const markActive = () => {
@@ -52,9 +68,18 @@ const updateMiniPlayerBar = () => {
   const miniBar = $("#mini-player-bar");
   if (!miniBar) return;
   const isHome = !location.hash || location.hash === "#" || location.hash === "#/";
-  if (isHome || !track) {
-    miniBar.hidden = true;
-    return;
+  if (isHome) {
+    // On home view, only show mini-player if track exists AND main player card is scrolled out of view
+    if (!track || playerCardVisible) {
+      miniBar.hidden = true;
+      return;
+    }
+  } else {
+    // On subpages (loved, library, artist), show whenever a track is active
+    if (!track) {
+      miniBar.hidden = true;
+      return;
+    }
   }
   miniBar.hidden = false;
 
@@ -284,7 +309,10 @@ const renderStats = async () => {
 const renderScrobbleState = () => {
   const chip = $("#scrobble-chip");
   chip.classList.toggle("on", config.authorized);
-  chip.textContent = config.authorized ? "Скроблінг увімкнено" : "Скроблінг вимкнено";
+  const textEl = chip.querySelector(".chip-text");
+  const label = config.authorized ? "Скроблінг увімкнено" : "Скроблінг вимкнено";
+  if (textEl) textEl.textContent = label;
+  else chip.textContent = label;
   updateWhoLink(config.user);
   $("#auth-state").textContent = config.authorized
     ? `Підключено: ${config.user}`
@@ -653,9 +681,10 @@ const handleRoute = () => {
   const [path, queryString] = hash.split("?");
   const qParams = new URLSearchParams(queryString || "");
 
-  // Update nav links active status
-  document.querySelectorAll("#appbar-nav .nav-link").forEach((link) => {
+  // Update nav links active status (both desktop and mobile bottom nav)
+  document.querySelectorAll("#appbar-nav .nav-link, #mobile-bottom-nav .mobile-nav-link").forEach((link) => {
     const route = link.dataset.route;
+    if (!route) return;
     if (path === "/" || path === "") {
       link.classList.toggle("active", route === "home");
     } else if (path.startsWith("/loved")) {
@@ -704,9 +733,23 @@ const handleRoute = () => {
 
 window.addEventListener("hashchange", handleRoute);
 
-// Mini-player click to return home
+// Mini-player click to return home or scroll to big player
 $("#mini-go-home")?.addEventListener("click", () => {
-  location.hash = "#/";
+  if (location.hash && location.hash !== "#/" && location.hash !== "#") {
+    location.hash = "#/";
+  } else {
+    $("#player-screen")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});
+
+// Mobile bottom nav settings trigger
+$("#mobile-nav-settings")?.addEventListener("click", openSettings);
+
+// Tapping "Головна" tab when already on home view smoothly scrolls to top
+document.querySelector('#mobile-bottom-nav a[data-route="home"]')?.addEventListener("click", () => {
+  if (!location.hash || location.hash === "#" || location.hash === "#/") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 });
 
 // ── Start ─────────────────────────────────────────────────────────────
@@ -714,6 +757,7 @@ const start = async () => {
   clearInterval(pollId);
   clearInterval(statsId);
   renderScrobbleState();
+  initPlayerObserver();
   if (!config.user || !config.lfmKey) return openSettings();
 
   try {

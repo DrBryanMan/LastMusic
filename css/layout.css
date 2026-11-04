@@ -34,23 +34,62 @@
 }
 
 @media (max-width: 900px) {
-  html, body { overflow: auto; }
-  .layout, .wrap.main-wrap { height: auto; overflow: visible; }
-  .cols { grid-template-columns: minmax(0, 1fr); overflow: visible; }
+  html, body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .layout {
+    height: auto;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+  .wrap.main-wrap {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    padding: 12px clamp(10px, 3vw, 16px) calc(76px + var(--sab));
+    max-width: 100%;
+  }
+  .cols {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+    gap: 14px;
+  }
+  .col {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
+  }
+  .page-scroll {
+    height: auto;
+    min-height: calc(100dvh - 54px);
+    overflow-y: visible;
+  }
+  .page-wrap {
+    padding: 14px clamp(10px, 3vw, 16px) calc(76px + var(--sab));
+    max-width: 100%;
+  }
 }
 
 /* ── Appbar (acrylic, sticky) ──────────────────────────────────────── */
 .appbar {
-  position: sticky; top: 0; z-index: 10;
+  position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 10px clamp(12px, 3vw, 32px);
-  background: light-dark(rgba(236,236,236,0.78), rgba(24,24,24,0.78));
+  padding: calc(8px + var(--sat)) max(clamp(12px, 3vw, 32px), var(--sar)) 8px max(clamp(12px, 3vw, 32px), var(--sal));
+  background: light-dark(rgba(236,236,236,0.85), rgba(24,24,24,0.85));
   backdrop-filter: blur(24px) saturate(1.6);
   -webkit-backdrop-filter: blur(24px) saturate(1.6);
   border-bottom: 1px solid var(--stroke);
 }
 
-.brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; text-decoration: none; color: inherit; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; text-decoration: none; color: inherit; flex-shrink: 0; }
 .brand .i { width: 20px; height: 20px; color: var(--accent); }
 .appbar-end { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .who { color: var(--text-2); font-size: 13px; text-decoration: none; transition: color 0.12s; }
@@ -65,6 +104,97 @@
 }
 .nav-link:hover { background: var(--subtle-hover); color: var(--text); }
 .nav-link.active { background: var(--subtle); color: var(--accent); font-weight: 600; }
+
+@media (max-width: 600px) {
+  .appbar {
+    padding-left: max(10px, var(--sal));
+    padding-right: max(10px, var(--sar));
+    gap: 8px;
+  }
+  .brand {
+    font-size: 15px;
+    gap: 6px;
+  }
+  .appbar-end {
+    gap: 6px;
+  }
+  .who {
+    display: none; /* Available in settings */
+  }
+}
+
+@media (max-width: 440px) {
+  #scrobble-chip .chip-text {
+    display: none;
+  }
+  #scrobble-chip::after {
+    content: "LFM";
+    font-size: 11px;
+    font-weight: 600;
+  }
+  #scrobble-chip {
+    padding: 3px 8px;
+    gap: 6px;
+  }
+}
+
+/* ── Mobile Bottom Navigation Bar ─────────────────────────────────── */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .appbar-nav {
+    display: none !important;
+  }
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: space-around;
+    height: calc(56px + var(--sab));
+    padding-bottom: var(--sab);
+    background: light-dark(rgba(246, 246, 246, 0.92), rgba(22, 22, 24, 0.92));
+    backdrop-filter: blur(28px) saturate(1.8);
+    -webkit-backdrop-filter: blur(28px) saturate(1.8);
+    border-top: 1px solid var(--stroke);
+    box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.12);
+  }
+  .mobile-nav-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 100%;
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: color 0.12s ease;
+  }
+  .mobile-nav-link .i {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.15s ease;
+  }
+  .mobile-nav-link.active {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .mobile-nav-link.active .i {
+    transform: scale(1.1);
+  }
+}
 
 /* ── Sub-pages container (Loved / Library / Artist) ────────────────── */
 .page-scroll {

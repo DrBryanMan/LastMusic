@@ -80,6 +80,92 @@
   gap: 16px;
   align-items: start;
 }
+
+/* ── Mobile Responsive Adjustments ─────────────────────────────────── */
 @media (max-width: 900px) {
   .artist-grid-2col { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .lib-header-bar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .lib-header-left {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .search-input {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+  }
+  .lib-header-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .lib-header-right .tabs {
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lib-header-right .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .lib-header-right .tab {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  .search-bar {
+    width: 100%;
+    min-width: 0;
+  }
+  .search-bar input {
+    font-size: 16px;
+  }
+  .artist-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 14px;
+    gap: 14px;
+  }
+  .artist-avatar {
+    width: 120px;
+    height: 120px;
+  }
+  .artist-hero-info {
+    min-width: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .artist-hero-info h1 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  .artist-tags {
+    justify-content: center;
+  }
+  .artist-bio {
+    text-align: left;
+    font-size: 12.5px;
+  }
+  .now-actions {
+    justify-content: center;
+    width: 100%;
+  }
+  .now-actions .btn {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+  }
+  .pagination {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .pagination .btn {
+    min-height: 36px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
 }

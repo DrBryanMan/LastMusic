@@ -24,7 +24,7 @@ export const mountArtistView = (container, artistName) => {
 
   // Create layout
   const heroSection = h("section", { class: "card artist-hero" }, h("p", { class: "empty" }, "Завантаження даних виконавця…"));
-  const statsSection = h("section", { class: "stats", style: "grid-template-columns: repeat(4, minmax(0, 1fr));" });
+  const statsSection = h("section", { class: "stats artist-stats" });
 
   const grid2col = h("div", { class: "artist-grid-2col" });
 
