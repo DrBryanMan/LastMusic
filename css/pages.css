@@ -6,9 +6,6 @@
 }
 
 .pagination {
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
   background: light-dark(rgba(245, 245, 245, 0.92), rgba(30, 30, 30, 0.92));
   backdrop-filter: var(--card-blur);
   -webkit-backdrop-filter: var(--card-blur);
